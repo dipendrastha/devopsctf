@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ops CTF</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap:3em;
+        }
+        .container{
+            background-color: aquamarine;
+            color:grey;
+            font-size: 2em;
+        }
+        canvas{
+            border: 1px solid black;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        Team
+    </div>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <form>
+    <input type="text" placeholder="Link to your site">
+
+    </form>
+    <script src="game.js" type="module"></script>
+    <script src="teamname2.js" type="module"></script>
+</body>
+</html>
