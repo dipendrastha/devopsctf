@@ -1,12 +1,11 @@
-import {flagProp, obstacleProp, playerProp, sharpyProp} from "./player.js";
-import { isColiding, startAnimation, stopAnimation , isColidingsmall} from "./utils.js";
+import {flagProp, obstacleProp, playerProp} from "./player.js";
+import { isColiding, startAnimation, stopAnimation } from "./utils.js";
 
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let raf = null;
-let keyCount = 0;
-let cltime;
+
 // players goes here
 const player = {
     ...playerProp,
@@ -20,16 +19,6 @@ const player = {
 
 const obstacle = {
     ...obstacleProp,
-    draw(){
-        ctx.beginPath();
-        ctx.rect(this.x, canvas.height-this.h, this.w, this.h);
-        ctx.fillStyle = this.color;
-        ctx.fill()
-    }
-}
-
-const sharpy = {
-    ...sharpyProp,
     draw(){
         ctx.beginPath();
         ctx.rect(this.x, canvas.height-this.h, this.w, this.h);
@@ -64,19 +53,6 @@ function draw(){
         player.grounded = false;
     }
     //vertical colliding
-    if(isColidingsmall(player, sharpy)){
-        document.querySelector('.container').innerHTML = '<b style="color:red">You died</b>';
-        if(keyCount > 10){
-            player.x=700;
-            console.log('hahah')
-        }
-        cltime = setTimeout(()=>{
-            location.href=''
-        },6000)
-    // }else{
-    //     console.log(player)
-    //     console.log(sharpy)
-    }
     if (isColiding(player, obstacle)){
         if(player.vy > 0){
             player.y = obstacle.y - player.h;
@@ -88,15 +64,14 @@ function draw(){
     }
 }
     if (isColiding(player, flag)){
-        document.querySelector('.container').innerText = 'FLAG FOUND';
-        clearTimeout(cltime)
+        document.querySelector('.container').innerHTML = 'FLAG FOUND fake_flag.Redirecting to next stage...'
+        setTimeout(()=>{
+            top.location.href='level3cantguess.html'
+        },5000)
        stopAnimation(raf)
 }
     // move horizontal
     player.x += player.vx;
-        if(isColidingsmall(sharpy, player)){
-        console.log('collision')
-    }
     if (isColiding(player, obstacle)){
         if(player.vx > 0){
             if(window.pos){
@@ -118,10 +93,8 @@ function draw(){
     player.x = Math.max(0, Math.min(canvas.width-player.w,player.x))
     
     player.draw();
-     sharpy.draw();
     obstacle.draw();
     flag.draw();
-   
     //stop animation if the hero is in groud or the velocity is zero
     if(player.grounded && player.vx == 0 && player.vy == 0){
         raf = stopAnimation(raf);
@@ -138,7 +111,6 @@ window.addEventListener('keydown',(e)=>{
             raf = startAnimation(draw, raf)
             break
         case 's':
-            console.log(keyCount++)
             break
         case 'd':
             player.vx = player.speed
@@ -157,11 +129,9 @@ window.addEventListener('keydown',(e)=>{
 
 window.addEventListener('keyup',(e)=>{
     player.vx = 0;
-    keyCount=0
     raf = window.cancelAnimationFrame(draw)
 })
 
 player.draw()
 obstacle.draw()
 flag.draw()
-sharpy.draw()
